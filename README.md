@@ -27,7 +27,7 @@ As permissões do convite incluem gestão de canais/cargos/servidor e os poderes
 
 ## Aplicar a configuração
 
-1. Abra **Actions → Configurar Discord → Run workflow** e mantenha `modo: plan`.
+1. Abra **Actions → Configurar Discord → Run workflow** e mantenha `modo: plan`. Se houver nomes ambíguos, use `modo: inspect` para listar IDs, tipos e categorias dos candidatos declarados, sem mensagens, conteúdo ou permissões individuais de pessoas.
 2. Leia as mudanças e pendências. O plano faz consultas e não altera o servidor. Se houver correspondências ambíguas, ajuste os nomes/aliases em `config/server.json` para identificar o recurso correto.
 3. Execute novamente com `modo: apply`. Não é necessário publicar código ou compartilhar o token para fazer isso.
 4. Execute `plan` de novo. Não deve haver mudanças pendentes nos recursos que o bot conseguiu gerenciar. Confira também as áreas privadas com uma conta de participante, sem poderes administrativos.

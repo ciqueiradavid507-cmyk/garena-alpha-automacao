@@ -3,11 +3,12 @@ on:
   workflow_dispatch:
     inputs:
       modo:
-        description: Planejar apenas lê; aplicar altera cargos e canais gerenciados.
+        description: inspect e plan apenas leem; apply altera cargos e canais gerenciados.
         type: choice
         required: true
         default: plan
         options:
+          - inspect
           - plan
           - apply
 permissions:
@@ -33,6 +34,7 @@ jobs:
             exit 1
           fi
           case "$MODO" in
+            inspect) python3 -m automation.inspect_discord ;;
             plan) python3 -m automation.discord_sync plan ;;
             apply) python3 -m automation.discord_sync apply ;;
             *) echo 'Modo inválido'; exit 1 ;;
