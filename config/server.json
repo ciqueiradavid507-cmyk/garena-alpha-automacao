@@ -1,0 +1,341 @@
+{
+  "guild_id": "1571058974625628182",
+  "roles": [
+    {
+      "key": "administracao",
+      "name": "Administração",
+      "aliases": [
+        "Administracao",
+        "Admin"
+      ],
+      "permissions": "268435632",
+      "color": 15158332
+    },
+    {
+      "key": "moderacao",
+      "name": "Moderação",
+      "aliases": [
+        "Moderacao",
+        "Moderador",
+        "Moderator"
+      ],
+      "permissions": "1099511636096",
+      "color": 3447003
+    },
+    {
+      "key": "lider",
+      "name": "Líder da Guilda",
+      "aliases": [
+        "Líder",
+        "Lider"
+      ],
+      "permissions": "0",
+      "color": 15844367
+    },
+    {
+      "key": "vice",
+      "name": "Vice-líder",
+      "aliases": [
+        "Vice-líder da Guilda",
+        "Vice"
+      ],
+      "permissions": "0",
+      "color": 15105570
+    },
+    {
+      "key": "capitao",
+      "name": "Capitão",
+      "aliases": [
+        "Capitao"
+      ],
+      "permissions": "0",
+      "color": 10181046
+    },
+    {
+      "key": "guilda",
+      "name": "Membro da Guilda",
+      "permissions": "0",
+      "color": 3066993
+    },
+    {
+      "key": "recruta",
+      "name": "Recruta",
+      "permissions": "0",
+      "color": 9807270
+    },
+    {
+      "key": "comunidade",
+      "name": "Comunidade",
+      "aliases": [
+        "Membro",
+        "Member"
+      ],
+      "permissions": "0",
+      "color": 6323595
+    }
+  ],
+  "categories": [
+    {
+      "key": "informacoes",
+      "name": "INFORMAÇÕES",
+      "aliases": [
+        "📌 INFORMAÇÕES",
+        "INFORMACOES",
+        "INFORMATION"
+      ],
+      "access": [
+        "@everyone"
+      ],
+      "channels": [
+        {
+          "key": "regras",
+          "name": "boas-vindas-e-regras",
+          "type": 0,
+          "topic": "Regras e orientação de entrada. Comunidade independente de Free Fire.",
+          "aliases": [
+            "regras",
+            "rules"
+          ],
+          "write_roles": [
+            "administracao",
+            "moderacao"
+          ]
+        },
+        {
+          "key": "avisos",
+          "name": "avisos",
+          "type": 0,
+          "topic": "Comunicados oficiais da comunidade.",
+          "aliases": [
+            "announcements"
+          ],
+          "write_roles": [
+            "administracao",
+            "moderacao"
+          ]
+        },
+        {
+          "key": "agenda",
+          "name": "agenda",
+          "type": 0,
+          "topic": "Agenda da comunidade e programação de atividades.",
+          "write_roles": [
+            "administracao",
+            "moderacao",
+            "lider",
+            "vice"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "comunidade",
+      "name": "COMUNIDADE",
+      "aliases": [
+        "💬 COMUNIDADE",
+        "COMMUNITY"
+      ],
+      "access": [
+        "@everyone"
+      ],
+      "channels": [
+        {
+          "key": "geral",
+          "name": "geral",
+          "type": 0,
+          "topic": "Converse com respeito e siga as regras.",
+          "aliases": [
+            "general"
+          ]
+        },
+        {
+          "key": "procurar_equipa",
+          "name": "procurar-equipe",
+          "type": 0,
+          "topic": "Encontre dupla ou squad: modo BR/CS, horário e objetivo.",
+          "aliases": [
+            "procurar-time",
+            "find-a-team"
+          ]
+        },
+        {
+          "key": "clipes",
+          "name": "clipes",
+          "type": 0,
+          "topic": "Clipes e momentos das partidas.",
+          "aliases": [
+            "clipes-e-mídia"
+          ]
+        },
+        {
+          "key": "sugestoes",
+          "name": "sugestões",
+          "type": 0,
+          "topic": "Sugestões para melhorar a comunidade.",
+          "aliases": [
+            "sugestoes",
+            "suggestions"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "guilda",
+      "name": "GUILDA",
+      "access": [
+        "administracao",
+        "lider",
+        "vice",
+        "capitao",
+        "guilda"
+      ],
+      "channels": [
+        {
+          "key": "comunicados_guilda",
+          "name": "comunicados-guilda",
+          "type": 0,
+          "topic": "Comunicados para integrantes aprovados.",
+          "write_roles": [
+            "administracao",
+            "lider",
+            "vice"
+          ]
+        },
+        {
+          "key": "coordenacao",
+          "name": "coordenacao",
+          "type": 0,
+          "topic": "Organização de treinos, line-ups e atividades.",
+          "write_roles": [
+            "administracao",
+            "lider",
+            "vice",
+            "capitao"
+          ]
+        },
+        {
+          "key": "treinos",
+          "name": "treinos",
+          "type": 0,
+          "topic": "Disponibilidade e organização dos treinos da guilda."
+        },
+        {
+          "key": "voz_guilda",
+          "name": "Sala da Guilda",
+          "type": 2,
+          "user_limit": 0
+        }
+      ]
+    },
+    {
+      "key": "voz",
+      "name": "VOZ",
+      "aliases": [
+        "🔊 VOZ",
+        "VOICE"
+      ],
+      "access": [
+        "@everyone"
+      ],
+      "channels": [
+        {
+          "key": "lobby",
+          "name": "Lobby",
+          "type": 2,
+          "user_limit": 0
+        },
+        {
+          "key": "equipe_1",
+          "name": "Equipe 1",
+          "type": 2,
+          "user_limit": 4
+        },
+        {
+          "key": "equipe_2",
+          "name": "Equipe 2",
+          "type": 2,
+          "user_limit": 4
+        }
+      ]
+    },
+    {
+      "key": "suporte",
+      "name": "SUPORTE",
+      "aliases": [
+        "SUPPORT"
+      ],
+      "access": [
+        "@everyone"
+      ],
+      "channels": [
+        {
+          "key": "atendimento",
+          "name": "atendimento",
+          "type": 0,
+          "topic": "Painel de atendimento do Rezaletbot. Não publique denúncias ou dados pessoais neste canal.",
+          "aliases": [
+            "support"
+          ],
+          "write_roles": [
+            "administracao",
+            "moderacao"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "equipe",
+      "name": "EQUIPE",
+      "aliases": [
+        "🔒 EQUIPE",
+        "STAFF"
+      ],
+      "access": [
+        "administracao",
+        "moderacao"
+      ],
+      "channels": [
+        {
+          "key": "equipe_interna",
+          "name": "equipe",
+          "type": 0,
+          "topic": "Organização interna de Administração e Moderação.",
+          "aliases": [
+            "staff-chat"
+          ]
+        },
+        {
+          "key": "registros",
+          "name": "registros-moderação",
+          "type": 0,
+          "topic": "Registros privados. Configure aqui os logs do Rezaletbot.",
+          "aliases": [
+            "registros-moderacao",
+            "mod-log"
+          ],
+          "write_roles": [
+            "administracao",
+            "moderacao"
+          ]
+        }
+      ]
+    }
+  ],
+  "integrations": [
+    {
+      "name": "Rezaletbot",
+      "bot_id": "843996519354859541",
+      "channels": ["geral", "regras", "atendimento", "registros"]
+    }
+  ],
+  "announcements": {
+    "coordination": {
+      "channel": "coordenacao",
+      "content": "Coordenação Garena Alpha: liderança, atualize a organização dos treinos e das equipes. Integrantes podem registrar sua disponibilidade em #treinos. Horários devem indicar o fuso de Belém."
+    },
+    "agenda": {
+      "channel": "agenda",
+      "content": "Garena Alpha — planejamento da semana: confira #treinos e #procurar-equipe. A liderança publicará os horários confirmados nesta agenda. Não há eventos ou premiações confirmados por esta mensagem."
+    }
+  }
+}

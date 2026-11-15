@@ -1,0 +1,17 @@
+name: Validar configuração
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Validar configuração e testes sem acesso ao Discord
+        run: |
+          python3 -m automation.discord_sync validate
+          python3 -m unittest discover -s tests -v

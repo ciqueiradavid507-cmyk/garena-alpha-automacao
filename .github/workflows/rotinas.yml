@@ -1,0 +1,59 @@
+name: Rotinas da comunidade
+on:
+  workflow_dispatch:
+    inputs:
+      tarefa:
+        description: Auditoria apenas lê; coordenação e agenda publicam uma mensagem.
+        type: choice
+        required: true
+        default: auditoria
+        options:
+          - auditoria
+          - coordenacao
+          - agenda
+  schedule:
+    - cron: '35 9 * * *'
+    - cron: '30 21 * * 1'
+    - cron: '30 21 * * 5'
+permissions:
+  contents: read
+concurrency:
+  group: garena-alpha-discord
+  cancel-in-progress: false
+jobs:
+  executar:
+    if: github.event_name == 'workflow_dispatch' || vars.GARENA_AUTOMATION_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Executar rotina
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          TAREFA: ${{ inputs.tarefa }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          ANNOUNCEMENTS_ENABLED: ${{ vars.GARENA_ANNOUNCEMENTS_ENABLED }}
+        run: |
+          if [ "$EVENT_NAME" = schedule ]; then
+            case "$EVENT_SCHEDULE" in
+              '35 9 * * *') TAREFA=auditoria ;;
+              '30 21 * * 1') TAREFA=coordenacao ;;
+              '30 21 * * 5') TAREFA=agenda ;;
+              *) exit 1 ;;
+            esac
+            if [ "$TAREFA" != auditoria ] && [ "$ANNOUNCEMENTS_ENABLED" != true ]; then
+              echo 'Publicações programadas desativadas.'
+              exit 0
+            fi
+          fi
+          if [ -z "$DISCORD_BOT_TOKEN" ]; then
+            echo '::error::Cadastre DISCORD_BOT_TOKEN nos Actions Secrets deste repositório.'
+            exit 1
+          fi
+          case "$TAREFA" in
+            auditoria) python3 -m automation.discord_sync plan ;;
+            coordenacao) python3 -m automation.discord_sync announce --kind coordination ;;
+            agenda) python3 -m automation.discord_sync announce --kind agenda ;;
+            *) echo 'Tarefa inválida'; exit 1 ;;
+          esac

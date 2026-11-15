@@ -1,0 +1,1 @@
+"""Garena Alpha configuration automation."""

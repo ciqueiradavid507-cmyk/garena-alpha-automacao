@@ -1,0 +1,39 @@
+name: Configurar Discord
+on:
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: Planejar apenas lê; aplicar altera cargos e canais gerenciados.
+        type: choice
+        required: true
+        default: plan
+        options:
+          - plan
+          - apply
+permissions:
+  contents: read
+concurrency:
+  group: garena-alpha-discord
+  cancel-in-progress: false
+jobs:
+  configurar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Conferir configuração
+        run: python3 -m automation.discord_sync validate
+      - name: Planejar ou aplicar
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          MODO: ${{ inputs.modo }}
+        run: |
+          if [ -z "$DISCORD_BOT_TOKEN" ]; then
+            echo '::error::Cadastre DISCORD_BOT_TOKEN nos Actions Secrets deste repositório.'
+            exit 1
+          fi
+          case "$MODO" in
+            plan) python3 -m automation.discord_sync plan ;;
+            apply) python3 -m automation.discord_sync apply ;;
+            *) echo 'Modo inválido'; exit 1 ;;
+          esac
