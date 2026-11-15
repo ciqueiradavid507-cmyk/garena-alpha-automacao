@@ -222,15 +222,25 @@ class DiscordClient:
                     body = response.read()
                     return json.loads(body) if body else None
             except urllib.error.HTTPError as error:
+                details = {}
+                try:
+                    parsed = json.loads(error.read(8192))
+                    if isinstance(parsed, dict):
+                        details = parsed
+                except (ValueError, UnicodeError, OSError):
+                    pass
+                error_context = f"Discord respondeu HTTP {error.code} em {method} {path}"
+                discord_code = details.get("code")
+                if type(discord_code) is int:
+                    error_context += f" (código Discord {discord_code})"
                 if error.code == 429 and attempt < 3:
                     delay = 1.0
                     try:
-                        details = json.loads(error.read())
                         delay = float(details.get("retry_after", 1))
                     except (ValueError, TypeError, AttributeError):
                         pass
                     if not 0 <= delay <= 30:
-                        raise SyncError("Discord limitou as requisições; tente novamente mais tarde.") from None
+                        raise SyncError(error_context + "; tente novamente mais tarde.") from None
                     self.sleeper(max(0.1, delay))
                     continue
                 # POST can have succeeded before a gateway error: never retry it
@@ -238,7 +248,7 @@ class DiscordClient:
                 if error.code >= 500 and method != "POST" and attempt < 3:
                     self.sleeper(2**attempt)
                     continue
-                raise SyncError(f"Discord respondeu HTTP {error.code}; nenhuma credencial foi exibida.") from None
+                raise SyncError(error_context + "; nenhuma credencial foi exibida.") from None
             except (urllib.error.URLError, TimeoutError, OSError):
                 raise SyncError("Falha de rede ao acessar Discord; confira o estado antes de repetir uma criação ou anúncio.") from None
             except (ValueError, UnicodeError):
