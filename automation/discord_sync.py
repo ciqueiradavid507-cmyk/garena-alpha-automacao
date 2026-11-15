@@ -93,6 +93,7 @@ def validate_config(config):
     if not isinstance(roles, list) or not isinstance(categories, list):
         raise SyncError("roles e categories devem ser listas.")
     keys = {"role": set(), "category": set(), "channel": set()}
+    resource_ids = {"role": set(), "channel": set()}
     role_names, channel_names = set(), set()
 
     def resource(item, names, kind):
@@ -102,6 +103,14 @@ def validate_config(config):
         if not isinstance(key, str) or not KEY.fullmatch(key) or key in keys[kind]:
             raise SyncError("Chave de recurso inválida ou duplicada.")
         keys[kind].add(key)
+        if "id" in item:
+            resource_id = item["id"]
+            namespace = "role" if kind == "role" else "channel"
+            if not _snowflake(resource_id) or resource_id in resource_ids[namespace]:
+                raise SyncError(f"ID de recurso inválido ou duplicado: {key}.")
+            if kind == "role" and resource_id == config["guild_id"]:
+                raise SyncError("O cargo @everyone não pode ser gerenciado por ID.")
+            resource_ids[namespace].add(resource_id)
         if (not isinstance(name, str) or not name.strip() or len(name) > 100
                 or "\n" in name or "\r" in name):
             raise SyncError(f"Nome inválido no recurso {key}.")
@@ -257,8 +266,16 @@ class DiscordClient:
 
 
 def _find(item, inventory, *, category=False, channel_type=None):
-    names = {item["name"], *item.get("aliases", [])}
-    matches = [resource for resource in inventory if resource.get("name") in names]
+    if "id" in item:
+        if not _snowflake(item["id"]):
+            raise SyncError(f"ID de recurso inválido: {item['key']}.")
+        matches = [resource for resource in inventory
+                   if str(resource.get("id")) == item["id"]]
+        if not matches:
+            raise SyncError(f"Recurso {item['key']} com ID {item['id']} não encontrado; criação de substituto bloqueada.")
+    else:
+        names = {item["name"], *item.get("aliases", [])}
+        matches = [resource for resource in inventory if resource.get("name") in names]
     if len(matches) > 1:
         raise SyncError(f"Correspondência ambígua para {item['key']}; informe nomes/aliases únicos.")
     if not matches:

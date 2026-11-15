@@ -9,7 +9,8 @@
         "Admin"
       ],
       "permissions": "268435632",
-      "color": 15158332
+      "color": 15158332,
+      "id": "1571304039642038433"
     },
     {
       "key": "moderacao",
@@ -20,7 +21,8 @@
         "Moderator"
       ],
       "permissions": "1099511636096",
-      "color": 3447003
+      "color": 3447003,
+      "id": "1571304041525284956"
     },
     {
       "key": "lider",
@@ -49,7 +51,8 @@
         "Capitao"
       ],
       "permissions": "0",
-      "color": 10181046
+      "color": 10181046,
+      "id": "1571304050949886203"
     },
     {
       "key": "guilda",
@@ -71,7 +74,8 @@
         "Member"
       ],
       "permissions": "0",
-      "color": 6323595
+      "color": 6323595,
+      "id": "1571291678436892802"
     }
   ],
   "categories": [
@@ -88,18 +92,27 @@
       ],
       "channels": [
         {
-          "key": "regras",
-          "name": "boas-vindas-e-regras",
+          "key": "recepcao",
+          "name": "boas-vindas",
+          "id": "1571058975439331359",
           "type": 0,
-          "topic": "Regras e orientação de entrada. Comunidade independente de Free Fire.",
-          "aliases": [
-            "regras",
-            "rules"
-          ],
+          "topic": "Recepção do Garena Alpha. Leia as regras em regras-da-comunidade.",
           "write_roles": [
             "administracao",
             "moderacao"
           ]
+        },
+        {
+          "key": "regras",
+          "name": "regras-da-comunidade",
+          "type": 0,
+          "topic": "Regras e orientação de entrada. Comunidade independente de Free Fire.",
+          "aliases": [],
+          "write_roles": [
+            "administracao",
+            "moderacao"
+          ],
+          "id": "1571275591552868466"
         },
         {
           "key": "avisos",
@@ -112,7 +125,8 @@
           "write_roles": [
             "administracao",
             "moderacao"
-          ]
+          ],
+          "id": "1571291688188776488"
         },
         {
           "key": "agenda",
@@ -125,8 +139,20 @@
             "lider",
             "vice"
           ]
+        },
+        {
+          "key": "guia",
+          "name": "guia-da-comunidade",
+          "id": "1571291684770160690",
+          "type": 0,
+          "topic": "Orientações para participar da comunidade e encontrar uma equipe.",
+          "write_roles": [
+            "administracao",
+            "moderacao"
+          ]
         }
-      ]
+      ],
+      "id": "1571291682094186546"
     },
     {
       "key": "comunidade",
@@ -146,7 +172,8 @@
           "topic": "Converse com respeito e siga as regras.",
           "aliases": [
             "general"
-          ]
+          ],
+          "id": "1571291694102745210"
         },
         {
           "key": "procurar_equipa",
@@ -156,7 +183,8 @@
           "aliases": [
             "procurar-time",
             "find-a-team"
-          ]
+          ],
+          "id": "1571291696233324564"
         },
         {
           "key": "clipes",
@@ -165,7 +193,8 @@
           "topic": "Clipes e momentos das partidas.",
           "aliases": [
             "clipes-e-mídia"
-          ]
+          ],
+          "id": "1571291698515017730"
         },
         {
           "key": "sugestoes",
@@ -175,9 +204,11 @@
           "aliases": [
             "sugestoes",
             "suggestions"
-          ]
+          ],
+          "id": "1571291701065162966"
         }
-      ]
+      ],
+      "id": "1571291691002896404"
     },
     {
       "key": "guilda",
@@ -256,14 +287,13 @@
           "type": 2,
           "user_limit": 4
         }
-      ]
+      ],
+      "id": "1571291702994538526"
     },
     {
       "key": "suporte",
-      "name": "SUPORTE",
-      "aliases": [
-        "SUPPORT"
-      ],
+      "name": "ATENDIMENTO",
+      "aliases": [],
       "access": [
         "@everyone"
       ],
@@ -302,7 +332,8 @@
           "topic": "Organização interna de Administração e Moderação.",
           "aliases": [
             "staff-chat"
-          ]
+          ],
+          "id": "1571291727078105200"
         },
         {
           "key": "registros",
@@ -316,16 +347,24 @@
           "write_roles": [
             "administracao",
             "moderacao"
-          ]
+          ],
+          "id": "1571291729393619046"
         }
-      ]
+      ],
+      "id": "1571291723693559969"
     }
   ],
   "integrations": [
     {
       "name": "Rezaletbot",
       "bot_id": "843996519354859541",
-      "channels": ["geral", "regras", "atendimento", "registros"]
+      "channels": [
+        "geral",
+        "regras",
+        "atendimento",
+        "registros",
+        "recepcao"
+      ]
     }
   ],
   "announcements": {

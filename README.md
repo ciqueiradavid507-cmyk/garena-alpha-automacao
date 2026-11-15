@@ -32,7 +32,9 @@ As permissões do convite incluem gestão de canais/cargos/servidor e os poderes
 3. Execute novamente com `modo: apply`. Não é necessário publicar código ou compartilhar o token para fazer isso.
 4. Execute `plan` de novo. Não deve haver mudanças pendentes nos recursos que o bot conseguiu gerenciar. Confira também as áreas privadas com uma conta de participante, sem poderes administrativos.
 
-O programa reaproveita nomes e aliases inequívocos. Não exclui canais, cargos, mensagens ou membros. Ele pode renomear, mover e atualizar os recursos declarados. **Nos canais e categorias gerenciados, substitui as permissões explícitas pela configuração**, removendo exceções antigas de cargos e pessoas. Antes de aplicar, inclua no arquivo todos os acessos que devem permanecer. Isso não apaga mensagens, mas pode retirar o acesso de integrações não declaradas. A configuração inclui uma exceção explícita para o Rezaletbot, identificada por seu cargo gerenciado e ID do bot.
+O programa reaproveita o `id` explícito quando informado; caso contrário, usa nomes e aliases inequívocos. IDs inexistentes interrompem a execução sem criar substitutos. Não exclui canais, cargos, mensagens ou membros. Ele pode renomear, mover e atualizar os recursos declarados. **Nos canais e categorias gerenciados, substitui as permissões explícitas pela configuração**, removendo exceções antigas de cargos e pessoas. Antes de aplicar, inclua no arquivo todos os acessos que devem permanecer. Isso não apaga mensagens, mas pode retirar o acesso de integrações não declaradas. A configuração inclui uma exceção explícita para o Rezaletbot, identificada por seu cargo gerenciado e ID do bot.
+
+A inspeção real identificou canais duplicados. O modelo fixa por ID os recursos escolhidos e preserva o ID do canal oficial de regras (`regras-da-comunidade`). O canal de atualizações administrativas do Discord fica fora do escopo, e o canal original de mensagens do sistema é reaproveitado como `boas-vindas`. Canais e cargos legados não declarados permanecem intactos.
 
 Se um canal não consta no arquivo, o programa não altera suas permissões. Ele também não altera as permissões globais de `@everyone`, não remove poderes de cargos externos à configuração e não prova a privacidade de todo o servidor só por terminar uma execução. Pessoas com Administrador ou o proprietário podem acessar áreas privadas. Avisos de auditoria precisam ser revisados.
 
@@ -50,12 +52,12 @@ Se um canal não consta no arquivo, o programa não altera suas permissões. Ele
 
 No painel do Rezaletbot, selecione o Garena Alpha:
 
-- Boas-vindas em `geral`, indicando `boas-vindas-e-regras`; sem DM e sem cargo automático na entrada. Preserve a verificação Alta do Discord.
+- Boas-vindas em `boas-vindas`, indicando `regras-da-comunidade`; sem DM e sem cargo automático na entrada. Preserve a verificação Alta do Discord.
 - Direcione os registros a um canal privado sob responsabilidade da equipe.
 - Ative antispam e limite inicial de cinco menções; use bloqueio e alertas, sem punições automáticas.
 - Configure tickets de suporte, recrutamento e denúncia com acesso somente ao solicitante e aos responsáveis apropriados.
 
-O arquivo permite acesso do Rezaletbot a `geral`, `boas-vindas-e-regras`, `atendimento` e `registros-moderação`. A automação resolve o cargo somente quando ele é gerenciado e `tags.bot_id` corresponde ao ID configurado; se não o encontrar, relata a pendência. O bot não recebe acesso aos demais chats privados. Para outros bots, declare explicitamente uma integração equivalente antes de aplicar. Preserve os tickets em categoria própria, fora das categorias gerenciadas, pois os acessos individuais de cada ticket não são mantidos por este modelo. O canal `atendimento` é preparado para receber um painel, mas o GitHub não instala o painel do Rezaletbot.
+O arquivo permite acesso do Rezaletbot a `geral`, `boas-vindas`, `regras-da-comunidade`, `atendimento` e `registros-moderação`. A automação resolve o cargo somente quando ele é gerenciado e `tags.bot_id` corresponde ao ID configurado; se não o encontrar, relata a pendência. O bot não recebe acesso aos demais chats privados. Para outros bots, declare explicitamente uma integração equivalente antes de aplicar. Preserve os tickets em categoria própria, fora das categorias gerenciadas, pois os acessos individuais de cada ticket não são mantidos por este modelo. O canal `atendimento` é preparado para receber um painel, mas o GitHub não instala o painel do Rezaletbot.
 
 Estas opções exigem configuração no painel do Rezaletbot. O GitHub não foi autenticado nesse painel e não o configura automaticamente.
 

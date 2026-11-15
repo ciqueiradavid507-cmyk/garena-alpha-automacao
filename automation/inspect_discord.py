@@ -10,7 +10,7 @@ import sys
 import unicodedata
 from pathlib import Path
 
-from .discord_sync import DiscordClient, SyncError, validate_config
+from .discord_sync import DiscordClient, SyncError, build_plan, validate_config
 
 
 def inspect(config, client):
@@ -31,12 +31,12 @@ def inspect(config, client):
                            if c.isalnum())
         forms = {normalized(name) for name in names} - {''}
         return [{field: item.get(field) for field in fields}
-                for item in items if item.get('name') in names
+                for item in items if item.get('id') == spec.get('id') or item.get('name') in names
                 or normalized(item.get('name', '')) in forms]
 
     channel_specs = [spec for category in config['categories']
                      for spec in [category, *category['channels']]]
-    return {
+    report = {
         'mode': 'inspect', 'guild_id': guild_id,
         'guild_settings': {key: guild.get(key) for key in (
             'rules_channel_id', 'public_updates_channel_id', 'system_channel_id', 'verification_level')},
@@ -51,11 +51,28 @@ def inspect(config, client):
         'channels': {spec['key']: candidates(spec, channels,
                                             ('id', 'name', 'type', 'parent_id'))
                      for spec in channel_specs},
+        'category_children': {category['key']: [
+            {field: channel.get(field) for field in ('id', 'name', 'type', 'parent_id')}
+            for channel in channels if channel.get('parent_id') in {
+                parent['id'] for parent in candidates(category, channels, ('id', 'name', 'type'))
+                if parent.get('type') == 4 and (not category.get('id') or parent['id'] == category['id'])}]
+            for category in config['categories']},
         'integration_presence': [
             {'name': integration['name'], 'present': any(
                 role.get('managed') and role.get('tags', {}).get('bot_id') == integration['bot_id']
                 for role in roles)} for integration in config.get('integrations', [])],
     }
+    try:
+        plan = build_plan(config, roles, channels, bot, member)
+        report['plan'] = {
+            'summary': plan['summary'], 'warnings': plan['warnings'],
+            'pending_manual': plan['pending_manual'],
+            'operations': [{key: operation.get(key) for key in ('kind', 'key', 'blocked_reason')}
+                           for operation in plan['operations']],
+        }
+    except SyncError as exc:
+        report['plan_error'] = str(exc)
+    return report
 
 
 def main():
