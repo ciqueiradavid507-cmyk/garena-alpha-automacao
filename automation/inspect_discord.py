@@ -7,6 +7,7 @@ import argparse
 import json
 import os
 import sys
+import unicodedata
 from pathlib import Path
 
 from .discord_sync import DiscordClient, SyncError, validate_config
@@ -19,18 +20,26 @@ def inspect(config, client):
     roles = client.request('GET', f'/guilds/{guild_id}/roles')
     channels = client.request('GET', f'/guilds/{guild_id}/channels')
     member = client.request('GET', f'/guilds/{guild_id}/members/{bot["id"]}')
+    guild = client.request('GET', f'/guilds/{guild_id}')
     if not isinstance(roles, list) or not isinstance(channels, list):
         raise SyncError('Inventário do Discord inválido.')
 
     def candidates(spec, items, fields):
         names = {spec['name'], *spec.get('aliases', [])}
+        def normalized(name):
+            return ''.join(c.lower() for c in unicodedata.normalize('NFKD', name)
+                           if c.isalnum())
+        forms = {normalized(name) for name in names} - {''}
         return [{field: item.get(field) for field in fields}
-                for item in items if item.get('name') in names]
+                for item in items if item.get('name') in names
+                or normalized(item.get('name', '')) in forms]
 
     channel_specs = [spec for category in config['categories']
                      for spec in [category, *category['channels']]]
     return {
         'mode': 'inspect', 'guild_id': guild_id,
+        'guild_settings': {key: guild.get(key) for key in (
+            'rules_channel_id', 'public_updates_channel_id', 'system_channel_id', 'verification_level')},
         'bot_user_id': bot['id'], 'bot_role_ids': member.get('roles', []),
         'bot_roles': [{field: role.get(field) for field in ('id', 'position', 'permissions')}
                       for role in roles if role.get('id') in member.get('roles', [])],

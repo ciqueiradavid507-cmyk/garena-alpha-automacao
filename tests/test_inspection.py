@@ -29,6 +29,7 @@ class InspectionTests(unittest.TestCase):
                                               {'id': bot_role, 'name': 'configuration-bot', 'position': 3}],
                     f'/guilds/{guild}/channels': channels,
                     f'/guilds/{guild}/members/{bot}': {'roles': [bot_role]},
+                    f'/guilds/{guild}': {'owner_id': 'private-owner-id', 'rules_channel_id': '1571058975439331359'},
                 }[path]
 
         report = inspect(config, Fake())
@@ -37,6 +38,7 @@ class InspectionTests(unittest.TestCase):
         serialized = json.dumps(report)
         self.assertNotIn('private-member-id', serialized)
         self.assertNotIn('unknown-private-channel-name', serialized)
+        self.assertNotIn('private-owner-id', serialized)
         self.assertEqual(channels, original)
 
 
